@@ -1,3 +1,3 @@
 server <- function(input,output,session){
-  callModule(selectionView,"selectionView")
+  callModule(selectionView,id="selectionView")
 }
