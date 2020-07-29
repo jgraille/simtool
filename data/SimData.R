@@ -1,3 +1,6 @@
+# var.global
+most.recent.year <- 2019
+
 SimData <- R6Class("SimData",
                             public = list(
                               data.mapping = NULL,
@@ -15,15 +18,15 @@ SimData <- R6Class("SimData",
                                                                      header = TRUE, sep = ",")
                             },
                             load = function(s,country){
-                              select <- self$data.mapping %>% filter(sector==s)
+                              select <- self$data.mapping %>% dplyr::filter(sector==s)
                               pillar.subpillar.variable <- dplyr::bind_rows(self$data.pillars %>%
-                                                                              filter(Pillar %in% unique(select$pillar)) %>% select(-Sector) %>%
+                                                                              dplyr::filter(Pillar %in% unique(select$pillar)) %>% select(-Sector) %>%
                                                                               rename(Indicator=Pillar),
                                                                             self$data.subpillars %>%
-                                                                              filter(Subpillar %in% unique(select$subpillar)) %>% select(-Pillar) %>%
+                                                                              dplyr::filter(Subpillar %in% unique(select$subpillar)) %>% select(-Pillar) %>%
                                                                               rename(Indicator=Subpillar),
-                                                                            self$data.variables %>% 
-                                                                              filter(Sub.Pillar %in% unique(select$subpillar)) %>% 
+                                                                            self$data.variables %>%
+                                                                              dplyr::filter(Sub.Pillar %in% unique(select$subpillar)) %>%
                                                                               select(-Pillar,-Metric,-sector_id,-Sub.Pillar) %>%
                                                                               rename(Indicator=Variable)) %>% filter(Country==country)
                               #histo <- lapply(seq(from=1,to=5,by = 0.5),function(x) {a$Value - x})
@@ -39,7 +42,7 @@ GrowthRate <- R6Class("GrowRate",
                       public = list(
                         initialize = function(){
                         },
-                        calculate = function(s,country,year){
+                        calculate.method1 = function(s,country,year){
                           pillar.subpillar.variable <- SimData$new()$load(s,country)
                           # this simulated history is here as a temporary situation.
                           histo <- lapply(seq(from=1,to=5,by = 0.5),function(x) {pillar.subpillar.variable$Value - x})
@@ -57,8 +60,26 @@ GrowthRate <- R6Class("GrowRate",
                           avg.growth.years.selected <- rowSums(growth.rate.selected)/year
                           expected <- df.binded[,3]*sapply(growth.rate.selected,function(x){1+x})
                           return(cbind(df.binded[,c(1,2,3,4)],expected))
+                        },
+                        calculate.method2 = function(s,country,year){
+                          pillar.subpillar.variable <- SimData$new()$load(s,country)
+                          # this simulated history is here as a temporary situation.
+                          histo <- lapply(seq(from=1,to=5,by = 0.5),function(x) {pillar.subpillar.variable$Value - x})
+                          # df.binded is the dataframe with historic datas and the last year (here 2019)
+                          df.binded <- bind_cols(pillar.subpillar.variable,bind_cols(histo))
+                          # df is a subset with only the values columns
+                          df <- df.binded[,c(3,5:(5+year-2))]
+                          
+                          X <- seq(from=most.recent.year,to=(most.recent.year - year + 1), by = -1)
+                          
+                          model <- sapply(1:nrow(df),function(x){lm(c(unlist(df[x,]))~X)})
+                          
+                          expected <- sapply(1:nrow(df),function(x){model[1,][[x]][1] + model[1,][[x]][2]*(most.recent.year+1)})
+                          
+                          out <- cbind(df.binded[,c(1,3,4)],expected) %>% rename(`Value 2020`=Value,
+                                                                                 `Rank 2020`=Rank,
+                                                                                 `Simulated Value`=expected)
+                          return(out)
                         }
                       ))
-
-
 

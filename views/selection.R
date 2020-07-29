@@ -61,31 +61,32 @@ selectionView <- function(input,output,session){
   })
   
   output$economy <- renderRHandsontable({
-    rhandsontable(growthrate$calculate(s = "Economy",country = input$countries,year=as.numeric(input$growthrate)))
+    rhandsontable(growthrate$calculate.method2(s = "Economy",country = input$countries,year=as.numeric(input$growthrate)),
+                                               width = 850, height = 600)
   })
   
   output$env <- renderRHandsontable({
-    rhandsontable(growthrate$calculate(s = "General Enabling Environment",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "General Enabling Environment",country = input$countries,year=3))
   })
   
   output$highed <- renderRHandsontable({
-    rhandsontable(growthrate$calculate(s = "Higher Education",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Higher Education",country = input$countries,year=3))
   })
   
   output$com <- renderRHandsontable({
-    rhandsontable(growthrate$calculate(s = "Information and Communications Technology",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Information and Communications Technology",country = input$countries,year=3))
   })
   
   output$unied <- renderRHandsontable({
-    rhandsontable(growthrate$calculate(s = "Pre-University Education",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Pre-University Education",country = input$countries,year=3))
   })
   
   output$devinn <- renderRHandsontable({
-    rhandsontable(growthrate$calculate(s = "Research, Development and Innovation",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Research, Development and Innovation",country = input$countries,year=3))
   })
   
   output$techvoc <- renderRHandsontable({
-    rhandsontable(growthrate$calculate(s = "Technical and Vocation Education and Training",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Technical and Vocation Education and Training",country = input$countries,year=3))
   })
   
   

@@ -6,7 +6,7 @@ library(renv)
 # for the first run uncomment the row below
 # renv::init() 
 # Install the packages
-required.packages = c("shiny","shinythemes","R6","rhandsontable")
+required.packages = c("shiny","shinythemes","R6","rhandsontable","shinyWidgets","tidyverse")
 new.packages = required.packages[!(required.packages %in% installed.packages()[,"Package"])]
 if (length(new.packages)) install.packages(new.packages, dependencies = TRUE, repos = "http://cran.us.r-project.org", lib=.libPaths()[1])
 lapply(required.packages, function(x){
