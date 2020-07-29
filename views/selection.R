@@ -66,27 +66,27 @@ selectionView <- function(input,output,session){
   })
   
   output$env <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "General Enabling Environment",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "General Enabling Environment",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
   })
   
   output$highed <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Higher Education",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Higher Education",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
   })
   
   output$com <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Information and Communications Technology",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Information and Communications Technology",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
   })
   
   output$unied <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Pre-University Education",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Pre-University Education",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
   })
   
   output$devinn <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Research, Development and Innovation",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Research, Development and Innovation",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
   })
   
   output$techvoc <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Technical and Vocation Education and Training",country = input$countries,year=3))
+    rhandsontable(growthrate$calculate.method2(s = "Technical and Vocation Education and Training",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
   })
   
   
