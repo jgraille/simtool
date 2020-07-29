@@ -60,9 +60,22 @@ selectionView <- function(input,output,session){
     updateSelectInput(session,"countries",choices=simdata$countries())
   })
   
+  #4. Watching any change made in column 'Value'
+  observeEvent(
+    input$economy,
+    {
+      print(hot_to_r(input$economy))
+    }
+  )
+  
   output$economy <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Economy",country = input$countries,year=as.numeric(input$growthrate)),
-                                               width = 850, height = 600)
+    rhandsontable(growthrate$calculate.method2(s = "Economy",
+                                               country = input$countries,
+                                               year=as.numeric(input$growthrate)),
+                                               width = 850, height = 600) %>%
+      hot_col("Rank 2020", readOnly = TRUE) %>%
+      hot_col("Indicator", readOnly = TRUE) %>%
+      hot_col("Simulated Value", readOnly = TRUE)
   })
   
   output$env <- renderRHandsontable({
