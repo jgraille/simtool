@@ -13,7 +13,8 @@ selectionViewUI <- function(id){
                                   typesetting, remaining essentially unchanged. It was popularised
                                   in the 1960s with the release of Letraset sheets containing Lorem Ipsum
                                   passages, and more recently with desktop publishing software like Aldus
-                                  PageMaker including versions of Lorem Ipsum.")
+                                  PageMaker including versions of Lorem Ipsum."),
+                          actionButton(inputId = "runsimulation",label = "Simulate")
              ),
              mainPanel(
                fluidPage(
@@ -28,6 +29,7 @@ selectionViewUI <- function(id){
                    yes = icon("ok", 
                               lib = "glyphicon")),size = "xs"
                )))),
+              fluidPage(verbatimTextOutput(ns("show"))),
                tabsetPanel(
                  tabPanel("Economy",
                           rHandsontableOutput(ns('economy'))),
@@ -62,45 +64,47 @@ selectionView <- function(input,output,session){
   
   #4. Watching any change made in column 'Value'
   observeEvent(
-    input$economy,
+    input$runsimulation,
     {
       print(hot_to_r(input$economy))
     }
   )
-  
+  val <- reactive({
+    hot_to_r(input$economy)
+  })
+  output$show <- renderPrint({val()})
   output$economy <- renderRHandsontable({
     rhandsontable(growthrate$calculate.method2(s = "Economy",
                                                country = input$countries,
                                                year=as.numeric(input$growthrate)),
-                                               width = 850, height = 600) %>%
+                                               width = 1000, height = 600) %>%
       hot_col("Rank 2020", readOnly = TRUE) %>%
       hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE)
+      hot_col("Expected Value", readOnly = TRUE) %>%
+      hot_col("Expected Rank", readOnly = TRUE) 
   })
   
   output$env <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "General Enabling Environment",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
+    rhandsontable(growthrate$calculate.method2(s = "General Enabling Environment",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
   })
   
   output$highed <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Higher Education",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
+    rhandsontable(growthrate$calculate.method2(s = "Higher Education",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
   })
   
   output$com <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Information and Communications Technology",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
+    rhandsontable(growthrate$calculate.method2(s = "Information and Communications Technology",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
   })
   
   output$unied <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Pre-University Education",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
+    rhandsontable(growthrate$calculate.method2(s = "Pre-University Education",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
   })
   
   output$devinn <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Research, Development and Innovation",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
+    rhandsontable(growthrate$calculate.method2(s = "Research, Development and Innovation",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
   })
   
   output$techvoc <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Technical and Vocation Education and Training",country = input$countries,year=as.numeric(input$growthrate)),width = 850, height = 600)
+    rhandsontable(growthrate$calculate.method2(s = "Technical and Vocation Education and Training",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
   })
-  
-  
 }

@@ -75,10 +75,12 @@ GrowthRate <- R6Class("GrowRate",
                           model <- sapply(1:nrow(df),function(x){lm(c(unlist(df[x,]))~X)})
                           
                           expected <- sapply(1:nrow(df),function(x){model[1,][[x]][1] + model[1,][[x]][2]*(most.recent.year+1)})
+                          expected.rank <- pillar.subpillar.variable$Rank
                           
-                          out <- cbind(df.binded[,c(1,3,4)],expected) %>% rename(`Value 2020`=Value,
-                                                                                 `Rank 2020`=Rank,
-                                                                                 `Simulated Value`=expected)
+                          out <- cbind(df.binded[,c(1,3,4)],expected,expected.rank) %>% rename(`Value 2020`=Value,
+                                                                                               `Rank 2020`=Rank,
+                                                                                               `Expected Value`=expected,
+                                                                                               `Expected Rank`=expected.rank)
                           return(out)
                         }
                       ))
