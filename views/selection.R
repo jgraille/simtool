@@ -14,7 +14,7 @@ selectionViewUI <- function(id){
                                   in the 1960s with the release of Letraset sheets containing Lorem Ipsum
                                   passages, and more recently with desktop publishing software like Aldus
                                   PageMaker including versions of Lorem Ipsum."),
-                          actionButton(inputId = "runsimulation",label = "Simulate")
+                          actionButton(inputId = ns("runsimulation"),label = "Simulate")
              ),
              mainPanel(
                fluidPage(
@@ -29,7 +29,6 @@ selectionViewUI <- function(id){
                    yes = icon("ok", 
                               lib = "glyphicon")),size = "xs"
                )))),
-              fluidPage(verbatimTextOutput(ns("show"))),
                tabsetPanel(
                  tabPanel("Economy",
                           rHandsontableOutput(ns('economy'))),
@@ -62,21 +61,51 @@ selectionView <- function(input,output,session){
     updateSelectInput(session,"countries",choices=simdata$countries())
   })
   
-  #4. Watching any change made in column 'Value'
-  observeEvent(
-    input$runsimulation,
-    {
-      print(hot_to_r(input$economy))
-    }
-  )
-  val <- reactive({
-    hot_to_r(input$economy)
-  })
-  output$show <- renderPrint({val()})
+  react.eco <- eventReactive(input$runsimulation,{hot_to_r(input$economy)})
+  react.histo.eco <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Economy",country = input$countries)})
+  
+  react.env <- eventReactive(input$runsimulation,{hot_to_r(input$env)})
+  react.histo.env <- eventReactive(input$runsimulation,{SimData$new()$load(s = "General Enabling Environment",country = input$countries)})
+  
+  react.highed <- eventReactive(input$runsimulation,{hot_to_r(input$highed)})
+  react.histo.highed <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Higher Education",country = input$countries)})
+  
+  react.com <- eventReactive(input$runsimulation,{hot_to_r(input$com)})
+  react.histo.com <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Information and Communications Technology",country = input$countries)})
+  
+  react.unied <- eventReactive(input$runsimulation,{hot_to_r(input$unied)})
+  react.histo.unied <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Pre-University Education",country = input$countries)})
+  
+  react.devinn <- eventReactive(input$runsimulation,{hot_to_r(input$devinn)})
+  react.histo.devinn <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Research, Development and Innovation",country = input$countries)})
+  
+  react.techvoc <- eventReactive(input$runsimulation,{hot_to_r(input$techvoc)})
+  react.histo.techvoc <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Technical and Vocation Education and Training",country = input$countries)})
+  
+  react.growthrate.selected <- eventReactive(input$runsimulation,{as.numeric(input$growthrate)})
+  selection.list <- list(eco=reactive({react.eco()}),
+                         histo.eco=reactive({react.histo.eco()}),
+                         env=reactive({react.env()}),
+                         histo.env=reactive({react.histo.env()}),
+                         highed=reactive({react.highed()}),
+                         histo.highed=reactive({react.histo.highed()}),
+                         com=reactive({react.com()}),
+                         histo.com=reactive({react.histo.com()}),
+                         unied=reactive({react.unied()}),
+                         histo.unied=reactive({react.histo.unied()}),
+                         devinn=reactive({react.devinn()}),
+                         histo.devinn=reactive({react.histo.devinn()}),
+                         techvoc=reactive({react.techvoc()}),
+                         histo.techvoc=reactive({react.histo.techvoc()}),
+                         growthrate.selected=reactive({react.growthrate.selected()}))
+  
   output$economy <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Economy",
-                                               country = input$countries,
-                                               year=as.numeric(input$growthrate)),
+    pillar.subpillar.variable.histo <- SimData$new()$load(s = "Economy",country = input$countries)
+    rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
+                                               pillar.subpillar.variable.histo,
+                                               user.value = NULL,
+                                               is.simulated = FALSE
+                                               ),
                                                width = 1000, height = 600) %>%
       hot_col("Rank 2020", readOnly = TRUE) %>%
       hot_col("Indicator", readOnly = TRUE) %>%
@@ -85,26 +114,57 @@ selectionView <- function(input,output,session){
   })
   
   output$env <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "General Enabling Environment",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
+    pillar.subpillar.variable.histo <- SimData$new()$load(s = "General Enabling Environment",country = input$countries)
+    rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
+                                               pillar.subpillar.variable.histo,
+                                               user.value = NULL,
+                                               is.simulated = FALSE),width = 1000, height = 600)
   })
-  
+
   output$highed <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Higher Education",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
+    pillar.subpillar.variable.histo <- SimData$new()$load(s = "Higher Education",country = input$countries)
+    rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
+                                               pillar.subpillar.variable.histo,
+                                               user.value = NULL,
+                                               is.simulated = FALSE
+                                               ),width = 1000, height = 600)
   })
-  
+
   output$com <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Information and Communications Technology",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
+    pillar.subpillar.variable.histo <- SimData$new()$load(s = "Information and Communications Technology",country = input$countries)
+    rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
+                                               pillar.subpillar.variable.histo,
+                                               user.value = NULL,
+                                               is.simulated = FALSE
+                                               ),width = 1000, height = 600)
   })
-  
+
   output$unied <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Pre-University Education",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
+    pillar.subpillar.variable.histo <- SimData$new()$load(s = "Pre-University Education",country = input$countries)
+    rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
+                                               pillar.subpillar.variable.histo,
+                                               user.value = NULL,
+                                               is.simulated = FALSE
+                                               ),width = 1000, height = 600)
   })
-  
+
   output$devinn <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Research, Development and Innovation",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
+    pillar.subpillar.variable.histo <- SimData$new()$load(s = "Research, Development and Innovation",country = input$countries)
+    rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
+                                               pillar.subpillar.variable.histo,
+                                               user.value = NULL,
+                                               is.simulated = FALSE
+                                               ),width = 1000, height = 600)
   })
-  
+
   output$techvoc <- renderRHandsontable({
-    rhandsontable(growthrate$calculate.method2(s = "Technical and Vocation Education and Training",country = input$countries,year=as.numeric(input$growthrate)),width = 1000, height = 600)
+    pillar.subpillar.variable.histo <- SimData$new()$load(s = "Technical and Vocation Education and Training",country = input$countries)
+    rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
+                                               pillar.subpillar.variable.histo,
+                                               user.value = NULL,
+                                               is.simulated = FALSE
+                                               ),width = 1000, height = 600)
   })
+
+  return(selection.list)
 }

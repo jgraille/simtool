@@ -1,3 +1,4 @@
 server <- function(input,output,session){
-  callModule(selectionView,id="selectionView")
+  selection.list <- callModule(selectionView,id="selectionView")
+  callModule(simulationView,id="simulationView",selection.list=selection.list)
 }
