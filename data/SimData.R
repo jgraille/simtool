@@ -32,7 +32,7 @@ SimData <- R6Class("SimData",
                               # this simulated history is here as a temporary situation.
                               histo <- lapply(seq(from=1,to=5,by = 0.5),function(x) {pillar.subpillar.variable$Value - x})
                               # df.binded is the dataframe with historic datas and the last year (here 2019)
-                              pillar.subpillar.variable.histo <- bind_cols(pillar.subpillar.variable,bind_cols(histo))
+                              pillar.subpillar.variable.histo <- na.omit(bind_cols(pillar.subpillar.variable,bind_cols(histo)))
                               pillar.subpillar.variable.histo
                             },
                             countries = function(){
