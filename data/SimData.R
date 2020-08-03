@@ -19,16 +19,11 @@ SimData <- R6Class("SimData",
                             },
                             load = function(s,country){
                               select <- self$data.mapping %>% dplyr::filter(sector==s)
-                              pillar.subpillar.variable <- dplyr::bind_rows(self$data.pillars %>%
-                                                                              dplyr::filter(Pillar %in% unique(select$pillar)) %>% select(-Sector) %>%
-                                                                              rename(Indicator=Pillar),
-                                                                            self$data.subpillars %>%
-                                                                              dplyr::filter(Subpillar %in% unique(select$subpillar)) %>% select(-Pillar) %>%
-                                                                              rename(Indicator=Subpillar),
-                                                                            self$data.variables %>%
-                                                                              dplyr::filter(Sub.Pillar %in% unique(select$subpillar)) %>%
-                                                                              select(-Pillar,-Metric,-sector_id,-Sub.Pillar) %>%
-                                                                              rename(Indicator=Variable)) %>% filter(Country==country)
+                              pillar.subpillar.variable <- dplyr::bind_rows(
+                                # self$data.pillars %>% dplyr::filter(Pillar %in% unique(select$pillar)) %>% select(-Sector) %>% rename(Indicator=Pillar),
+                                # self$data.subpillars %>% dplyr::filter(Subpillar %in% unique(select$subpillar)) %>% select(-Pillar) %>% rename(Indicator=Subpillar),
+                                self$data.variables %>% dplyr::filter(Sub.Pillar %in% unique(select$subpillar)) %>% select(-Pillar,-Metric,-sector_id,-Sub.Pillar) %>% 
+                                  rename(Indicator=Variable)) %>% filter(Country==country)
                               # this simulated history is here as a temporary situation.
                               histo <- lapply(seq(from=1,to=5,by = 0.5),function(x) {pillar.subpillar.variable$Value - x})
                               # df.binded is the dataframe with historic datas and the last year (here 2019)
@@ -84,4 +79,6 @@ GrowthRate <- R6Class("GrowRate",
                           return(out)
                         }
                       ))
+
+
 

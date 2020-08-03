@@ -185,7 +185,6 @@ selectionView <- function(input,output,session){
       hot_col("Expected Value", readOnly = FALSE) %>%
       hot_col("Expected Rank", readOnly = TRUE) 
   })
-  
   output$techvoc <- renderRHandsontable({
     pillar.subpillar.variable.histo <- SimData$new()$load(s = "Technical and Vocation Education and Training",country = input$countries)
     rhandsontable(growthrate$calculate.method2(year=as.numeric(input$growthrate),
@@ -199,6 +198,5 @@ selectionView <- function(input,output,session){
       hot_col("Expected Value", readOnly = FALSE) %>%
       hot_col("Expected Rank", readOnly = TRUE) 
   })
-
   return(selection.list)
 }
