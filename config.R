@@ -15,3 +15,5 @@ lapply(required.packages, function(x){
 })
 #renv::snapshot()
 rm(required.packages, new.packages)
+
+

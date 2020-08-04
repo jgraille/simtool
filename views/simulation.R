@@ -5,7 +5,7 @@ simulationViewUI <- function(id){
            # verbatimTextOutput(ns('test')),
            # verbatimTextOutput(ns('test2')),
            # verbatimTextOutput(ns('test3'))
-           ),
+           ),wellPanel(
            tabsetPanel(
              tabPanel("Economy",
                       rHandsontableOutput(ns('economy'))),
@@ -21,7 +21,10 @@ simulationViewUI <- function(id){
                       rHandsontableOutput(ns('devinn'))),
              tabPanel("Tech.Voc.Train",
                       rHandsontableOutput(ns('techvoc')))
-           )
+           )),
+           verbatimTextOutput(ns("test")),
+           verbatimTextOutput(ns("test2")),
+           verbatimTextOutput(ns("test3"))
           )
 }
 simulationView <- function(input,output,session,selection.list){
