@@ -54,58 +54,43 @@ selectionView <- function(input,output,session){
   
   ns <- session$ns
   
-  simdata <- SimData$new()
-  growthrate <- GrowthRate$new()
+  load <- LoadData$new(NULL,NULL,NULL,NULL)
   
   observe({
-    updateSelectInput(session,"countries",choices=simdata$countries())
+    updateSelectInput(session,"countries",choices=unique(load$a.pillars$Country))
   })
+  react.country <- eventReactive(input$runsimulation,{input$countries})
   
   react.eco <- eventReactive(input$runsimulation,{hot_to_r(input$economy)})
-  react.histo.eco <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Economy",country = input$countries)})
-  
+
   react.env <- eventReactive(input$runsimulation,{hot_to_r(input$env)})
-  react.histo.env <- eventReactive(input$runsimulation,{SimData$new()$load(s = "General Enabling Environment",country = input$countries)})
-  
+ 
   react.highed <- eventReactive(input$runsimulation,{hot_to_r(input$highed)})
-  react.histo.highed <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Higher Education",country = input$countries)})
   
   react.com <- eventReactive(input$runsimulation,{hot_to_r(input$com)})
-  react.histo.com <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Information and Communications Technology",country = input$countries)})
   
   react.unied <- eventReactive(input$runsimulation,{hot_to_r(input$unied)})
-  react.histo.unied <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Pre-University Education",country = input$countries)})
-  
+ 
   react.devinn <- eventReactive(input$runsimulation,{hot_to_r(input$devinn)})
-  react.histo.devinn <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Research, Development and Innovation",country = input$countries)})
   
   react.techvoc <- eventReactive(input$runsimulation,{hot_to_r(input$techvoc)})
-  react.histo.techvoc <- eventReactive(input$runsimulation,{SimData$new()$load(s = "Technical and Vocation Education and Training",country = input$countries)})
   
   react.growthrate.selected <- eventReactive(input$runsimulation,{as.numeric(input$growthrate)})
   selection.list <- list(eco=reactive({react.eco()}),
-                         histo.eco=reactive({react.histo.eco()}),
                          env=reactive({react.env()}),
-                         histo.env=reactive({react.histo.env()}),
                          highed=reactive({react.highed()}),
-                         histo.highed=reactive({react.histo.highed()}),
                          com=reactive({react.com()}),
-                         histo.com=reactive({react.histo.com()}),
                          unied=reactive({react.unied()}),
-                         histo.unied=reactive({react.histo.unied()}),
                          devinn=reactive({react.devinn()}),
-                         histo.devinn=reactive({react.histo.devinn()}),
                          techvoc=reactive({react.techvoc()}),
-                         histo.techvoc=reactive({react.histo.techvoc()}),
+                         country.selected=reactive({react.country()}),
                          growthrate.selected=reactive({react.growthrate.selected()}))
   
-  simdata <- SimData$new()
-  growthrate <- GrowthRate$new()
   
   
   output$economy <- renderRHandsontable({
-    res <- Selection.data$new(sector = 'Economy',country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
-    rhandsontable(res$tabpanel(),width = 1000, height = 600) %>%
+    res <- Data$new(sector = 'Economy',country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
+    rhandsontable(res$tabpanel.selection(),width = 1000, height = 600) %>%
       hot_col(1, readOnly = TRUE) %>%
       hot_col(2, readOnly = TRUE) %>% 
       hot_col(3, readOnly = TRUE) %>% 
@@ -114,8 +99,8 @@ selectionView <- function(input,output,session){
   })
   
   output$env <- renderRHandsontable({
-    res <- Selection.data$new(sector = 'General Enabling Environment',country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
-    rhandsontable(res$tabpanel(),width = 1000, height = 600) %>%
+    res <- Data$new(sector = 'General Enabling Environment',country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
+    rhandsontable(res$tabpanel.selection(),width = 1000, height = 600) %>%
       hot_col(1, readOnly = TRUE) %>%
       hot_col(2, readOnly = TRUE) %>% 
       hot_col(3, readOnly = TRUE) %>% 
@@ -124,8 +109,8 @@ selectionView <- function(input,output,session){
   })
   
   output$highed <- renderRHandsontable({
-    res <- Selection.data$new(sector = "Higher Education",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
-    rhandsontable(res$tabpanel(),width = 1000, height = 600) %>%
+    res <- Data$new(sector = "Higher Education",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
+    rhandsontable(res$tabpanel.selection(),width = 1000, height = 600) %>%
       hot_col(1, readOnly = TRUE) %>%
       hot_col(2, readOnly = TRUE) %>% 
       hot_col(3, readOnly = TRUE) %>% 
@@ -134,8 +119,8 @@ selectionView <- function(input,output,session){
   })
   
   output$com <- renderRHandsontable({
-    res <- Selection.data$new(sector = "Information and Communications Technology",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
-    rhandsontable(res$tabpanel(),width = 1000, height = 600) %>%
+    res <- Data$new(sector = "Information and Communications Technology",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
+    rhandsontable(res$tabpanel.selection(),width = 1000, height = 600) %>%
       hot_col(1, readOnly = TRUE) %>%
       hot_col(2, readOnly = TRUE) %>% 
       hot_col(3, readOnly = TRUE) %>% 
@@ -144,8 +129,8 @@ selectionView <- function(input,output,session){
   })
   
   output$unied <- renderRHandsontable({
-    res <- Selection.data$new(sector = "Pre-University Education",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
-    rhandsontable(res$tabpanel(),width = 1000, height = 600) %>%
+    res <- Data$new(sector = "Pre-University Education",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
+    rhandsontable(res$tabpanel.selection(),width = 1000, height = 600) %>%
       hot_col(1, readOnly = TRUE) %>%
       hot_col(2, readOnly = TRUE) %>% 
       hot_col(3, readOnly = TRUE) %>% 
@@ -154,8 +139,8 @@ selectionView <- function(input,output,session){
   })
   
   output$devinn <- renderRHandsontable({
-    res <- Selection.data$new(sector = "Research, Development and Innovation",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
-    rhandsontable(res$tabpanel(),width = 1000, height = 600) %>%
+    res <- Data$new(sector = "Research, Development and Innovation",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
+    rhandsontable(res$tabpanel.selection(),width = 1000, height = 600) %>%
       hot_col(1, readOnly = TRUE) %>%
       hot_col(2, readOnly = TRUE) %>% 
       hot_col(3, readOnly = TRUE) %>% 
@@ -164,8 +149,8 @@ selectionView <- function(input,output,session){
   })
   
   output$techvoc <- renderRHandsontable({
-    res <- Selection.data$new(sector = "Technical and Vocation Education and Training",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
-    rhandsontable(res$tabpanel(),width = 1000, height = 600) %>%
+    res <- Data$new(sector = "Technical and Vocation Education and Training",country = input$countries,year = as.numeric(input$growthrate),user.value = NULL,is.simulated = FALSE)
+    rhandsontable(res$tabpanel.selection(),width = 1000, height = 600) %>%
       hot_col(1, readOnly = TRUE) %>%
       hot_col(2, readOnly = TRUE) %>% 
       hot_col(3, readOnly = TRUE) %>% 

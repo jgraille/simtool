@@ -1,5 +1,5 @@
 source("config.R")
-source("data/SimData.R")
+#source("data/SimData.R")
 source("views/selection.R")
 source("views/simulation.R")
 source("views/LoadData.R")
@@ -10,6 +10,6 @@ source("views/LoadData.R")
 # bouton reset pour revenir au valeur initiale
 
 ui <- navbarPage("GKI-Simulation tool",theme = shinytheme("flatly"),
-                 selectionViewUI(id="selectionView")
-                 #simulationViewUI(id="simulationView")
+                 selectionViewUI(id="selectionView"),
+                 simulationViewUI(id="simulationView")
 )

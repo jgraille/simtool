@@ -21,110 +21,104 @@ simulationViewUI <- function(id){
                       rHandsontableOutput(ns('devinn'))),
              tabPanel("Tech.Voc.Train",
                       rHandsontableOutput(ns('techvoc')))
-           )),
-           verbatimTextOutput(ns("test")),
-           verbatimTextOutput(ns("test2")),
-           verbatimTextOutput(ns("test3"))
+           ))
+           #verbatimTextOutput(ns("test")),
+           #verbatimTextOutput(ns("test2")),
+           #verbatimTextOutput(ns("test3"))
           )
 }
 simulationView <- function(input,output,session,selection.list){
   ns <- session$ns
   
-  growthrate1 <- GrowthRate$new()
-  
-  output$test <- renderPrint({selection.list$eco()$Value})
-  output$test2 <- renderPrint({selection.list$histo.eco()})
+  output$test <- renderPrint({selection.list$highed()})
+  # output$test2 <- renderPrint({
+  #   pre <- Preprocessing$new()$load.bind('Economy',selection.list$country.selected())
+  #   pre
+  # })
   output$test3 <- renderPrint({selection.list$growthrate.selected()})
   
   output$economy <- renderRHandsontable({
-    rhandsontable(growthrate1$calculate.method2(selection.list$growthrate.selected(),
-                                                selection.list$histo.eco(),
-                                                user.value = selection.list$eco()$Value,
-                                                is.simulated = TRUE
-    ),
+    res <- Data$new(sector = 'Economy',country = selection.list$country.selected(),
+                    year = selection.list$growthrate.selected(),user.value = selection.list$eco()[4],
+                    is.simulated = TRUE)
+    rhandsontable(res$tabpanel.simulation.values(),
     width = 1400, height = 600) %>%
-      hot_col("Rank 2020", readOnly = TRUE) %>%
-      hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE) %>%
-      hot_col("Simulated Rank", readOnly = TRUE) 
+      hot_col(1, readOnly = TRUE) %>%
+      hot_col(2, readOnly = TRUE) %>%
+      hot_col(3, readOnly = TRUE) %>%
+      hot_col(4, readOnly = TRUE)
   })
   
   output$env <- renderRHandsontable({
-    rhandsontable(growthrate1$calculate.method2(selection.list$growthrate.selected(),
-                                                selection.list$histo.env(),
-                                                user.value = selection.list$env()$Value,
-                                                is.simulated = TRUE
-    ),
-    width = 1400, height = 600) %>%
-      hot_col("Rank 2020", readOnly = TRUE) %>%
-      hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE) %>%
-      hot_col("Simulated Rank", readOnly = TRUE) 
+    res <- Data$new(sector = 'General Enabling Environment',country = selection.list$country.selected(),
+                    year = selection.list$growthrate.selected(),user.value = selection.list$env()[4],
+                    is.simulated = TRUE)
+    rhandsontable(res$tabpanel.simulation.values(),
+                  width = 1400, height = 600) %>%
+      hot_col(1, readOnly = TRUE) %>%
+      hot_col(2, readOnly = TRUE) %>%
+      hot_col(3, readOnly = TRUE) %>%
+      hot_col(4, readOnly = TRUE)
   })
-  
+
   output$highed <- renderRHandsontable({
-    rhandsontable(growthrate1$calculate.method2(selection.list$growthrate.selected(),
-                                                selection.list$histo.highed(),
-                                                user.value = selection.list$highed()$Value,
-                                                is.simulated = TRUE
-    ),
-    width = 1400, height = 600) %>%
-      hot_col("Rank 2020", readOnly = TRUE) %>%
-      hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE) %>%
-      hot_col("Simulated Rank", readOnly = TRUE) 
+    res <- Data$new(sector = "Higher Education",country = selection.list$country.selected(),
+                    year = selection.list$growthrate.selected(),user.value = selection.list$highed()[4],
+                    is.simulated = TRUE)
+    rhandsontable(res$tabpanel.simulation.values(),
+                  width = 1400, height = 600) %>%
+      hot_col(1, readOnly = TRUE) %>%
+      hot_col(2, readOnly = TRUE) %>%
+      hot_col(3, readOnly = TRUE) %>%
+      hot_col(4, readOnly = TRUE)
   })
-  
+
   output$com <- renderRHandsontable({
-    rhandsontable(growthrate1$calculate.method2(selection.list$growthrate.selected(),
-                                                selection.list$histo.com(),
-                                                user.value = selection.list$com()$Value,
-                                                is.simulated = TRUE
-    ),
-    width = 1400, height = 600) %>%
-      hot_col("Rank 2020", readOnly = TRUE) %>%
-      hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE) %>%
-      hot_col("Simulated Rank", readOnly = TRUE) 
+    res <- Data$new(sector = "Information and Communications Technology",country = selection.list$country.selected(),
+                    year = selection.list$growthrate.selected(),user.value = selection.list$com()[4],
+                    is.simulated = TRUE)
+    rhandsontable(res$tabpanel.simulation.values(),
+                  width = 1400, height = 600) %>%
+      hot_col(1, readOnly = TRUE) %>%
+      hot_col(2, readOnly = TRUE) %>%
+      hot_col(3, readOnly = TRUE) %>%
+      hot_col(4, readOnly = TRUE)
   })
-  
+
   output$unied <- renderRHandsontable({
-    rhandsontable(growthrate1$calculate.method2(selection.list$growthrate.selected(),
-                                                selection.list$histo.unied(),
-                                                user.value = selection.list$unied()$Value,
-                                                is.simulated = TRUE
-    ),
-    width = 1400, height = 600) %>%
-      hot_col("Rank 2020", readOnly = TRUE) %>%
-      hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE) %>%
-      hot_col("Simulated Rank", readOnly = TRUE) 
+    res <- Data$new(sector = "Pre-University Education",country = selection.list$country.selected(),
+                    year = selection.list$growthrate.selected(),user.value = selection.list$unied()[4],
+                    is.simulated = TRUE)
+    rhandsontable(res$tabpanel.simulation.values(),
+                  width = 1400, height = 600) %>%
+      hot_col(1, readOnly = TRUE) %>%
+      hot_col(2, readOnly = TRUE) %>%
+      hot_col(3, readOnly = TRUE) %>%
+      hot_col(4, readOnly = TRUE)
   })
-  
+
   output$devinn <- renderRHandsontable({
-    rhandsontable(growthrate1$calculate.method2(selection.list$growthrate.selected(),
-                                                selection.list$histo.devinn(),
-                                                user.value = selection.list$devinn()$Value,
-                                                is.simulated = TRUE
-    ),
-    width = 1400, height = 600) %>%
-      hot_col("Rank 2020", readOnly = TRUE) %>%
-      hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE) %>%
-      hot_col("Simulated Rank", readOnly = TRUE) 
+    res <- Data$new(sector = "Research, Development and Innovation",country = selection.list$country.selected(),
+                    year = selection.list$growthrate.selected(),user.value = selection.list$devinn()[4],
+                    is.simulated = TRUE)
+    rhandsontable(res$tabpanel.simulation.values(),
+                  width = 1400, height = 600) %>%
+      hot_col(1, readOnly = TRUE) %>%
+      hot_col(2, readOnly = TRUE) %>%
+      hot_col(3, readOnly = TRUE) %>%
+      hot_col(4, readOnly = TRUE)
   })
-  
+
   output$techvoc <- renderRHandsontable({
-    rhandsontable(growthrate1$calculate.method2(selection.list$growthrate.selected(),
-                                                selection.list$histo.techvoc(),
-                                                user.value = selection.list$techvoc()$Value,
-                                                is.simulated = TRUE
-    ),
-    width = 1400, height = 600) %>%
-      hot_col("Rank 2020", readOnly = TRUE) %>%
-      hot_col("Indicator", readOnly = TRUE) %>%
-      hot_col("Simulated Value", readOnly = TRUE) %>%
-      hot_col("Simulated Rank", readOnly = TRUE) 
+    res <- Data$new(sector = "Technical and Vocation Education and Training",country = selection.list$country.selected(),
+                    year = selection.list$growthrate.selected(),user.value = selection.list$techvoc()[4],
+                    is.simulated = TRUE)
+    rhandsontable(res$tabpanel.simulation.values(),
+                  width = 1400, height = 600) %>%
+      hot_col(1, readOnly = TRUE) %>%
+      hot_col(2, readOnly = TRUE) %>%
+      hot_col(3, readOnly = TRUE) %>%
+      hot_col(4, readOnly = TRUE)
   })
   
 }

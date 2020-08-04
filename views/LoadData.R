@@ -1,5 +1,5 @@
 # Global Env
-forecasted.year <- 2022 #(both expected and simulated)
+forecasted.year <- 2022 #expected
 LoadData <- R6Class("LoadData",
                     public = list(
                       mapping = NULL,
@@ -37,11 +37,12 @@ Preprocessing <- R6Class("Preprocessing",
                            load.bind = function(s,country){
                              # 2019 data + histo
                              select <- self$load$a.mapping %>% dplyr::filter(sector==s)
+                             print(select)
                              pillar.subpillar.variable <- dplyr::bind_rows(
                                # self$data.pillars %>% dplyr::filter(Pillar %in% unique(select$pillar)) %>% select(-Sector) %>% rename(Indicator=Pillar),
                                # self$data.subpillars %>% dplyr::filter(Subpillar %in% unique(select$subpillar)) %>% select(-Pillar) %>% rename(Indicator=Subpillar),
                                na.omit(self$load$a.variables) %>% dplyr::filter(Sub.Pillar %in% unique(select$subpillar)) %>% select(-Pillar,-Metric,-sector_id,-Sub.Pillar) %>% 
-                                 dplyr::rename(Indicator=Variable)) %>% filter(Country==country)
+                                 dplyr::rename(Indicator=Variable) %>% dplyr::filter(Country==country))
                              # this simulated history is here as a temporary situation.
                              histo <- lapply(seq(from=1,to=5,by = 0.5),function(x) {pillar.subpillar.variable$Value - x})
                              # df.binded is the dataframe with historic datas and the last year (here 2019)
@@ -75,62 +76,63 @@ Forecasted <- R6Class("Forecasted",
                           expected <- df.binded[,3]*sapply(growth.rate.selected,function(x){1+x})
                           return(cbind(df.binded[,c(1,2,3,4)],expected))
                         },
-                        calculate.method2 = function(year,user.value,is.simulated){
+                        onhisto = function(year,user.value,is.simulated){
                           # df is a subset with only the values columns
-                          if (is.simulated & !is.null(user.value)) self$preprocessing.load.bind$Value <- user.value
-                          df <- self$preprocessing.load.bind[,c(3,5:(5+year-2))]
-                          
-                          last.histo.year <- forecasted.year - 1
-
-                          X <- seq(from=last.histo.year,to=(last.histo.year - year + 1), by = -1)
-
+                          if (is.simulated & !is.null(user.value)){
+                            df <- cbind(user.value,self$preprocessing.load.bind[,c(3,5:(5+year-2))])
+                            last.histo.year <- forecasted.year
+                            
+                            X <- seq(from=last.histo.year,to=(last.histo.year - year), by = -1)
+                          } else {
+                            df <- self$preprocessing.load.bind[,c(3,5:(5+year-2))]
+                            last.histo.year <- forecasted.year - 1
+                            X <- seq(from=last.histo.year,to=(last.histo.year - year + 1), by = -1)
+                            }
                           model <- sapply(1:nrow(df),function(x){lm(c(unlist(df[x,]))~X)})
 
                           calculated <- sapply(1:nrow(df),function(x){model[1,][[x]][1] + model[1,][[x]][2]*(last.histo.year+1)})
                           return(calculated)
-                          # expected.rank <- self$preprocessing.load.bind$Rank
-                          # 
-                          # out <- cbind(self$preprocessing.load.bind[,c(1,3,4)],expected,expected.rank)
-                          # if (is.simulated){
-                          #   out <- out %>% rename(`Value 2020`=Value,
-                          #                         `Rank 2020`=Rank,
-                          #                         `Simulated Value`=expected,`Simulated Rank`=expected.rank)
-                          # } else {
-                          #   out <- out %>% rename(`Value 2020`=Value,
-                          #                         `Rank 2020`=Rank,
-                          #                         `Expected Value`=expected,`Expected Rank`=expected.rank)
-                          # }
-                          # return(out)
                         }
                       ))
 
-Selection.data <- R6Class("Selection.data",
-                          public = list(
-                            selection.panel.data = NULL,
-                            sector = NULL,
-                            country = NULL,
-                            year = NULL,
-                            user.value = NULL,
-                            is.simulated = NULL,
-                            calculated = NULL,
-                            initialize = function(sector,country,year,user.value,is.simulated){
-                              
-                              self$sector = sector
-                              self$country = country
-                              self$year = year
-                              self$user.value = user.value
-                              self$is.simulated = is.simulated
-                              
-                            },
-                            tabpanel = function(){
-                              forecasted = Forecasted$new(self$sector,self$country)
-                              calculated = forecasted$calculate.method2(self$year,self$user.value,self$is.simulated)
-                              calculated.rank <- forecasted$preprocessing.load.bind$Rank
-                              out <- cbind(forecasted$preprocessing.load.bind[,c(1,3,4)],calculated,calculated.rank)
-                              new.colnames <- c("Indicator",paste0("Value ",forecasted.year - 1),paste0("Rank ",forecasted.year - 1),
-                                                paste0("Value expected ",forecasted.year),paste0("Rank expected ",forecasted.year))
-                              out <- out %>% rename_at(vars(colnames(out)), ~ new.colnames)
-                              return(out)
-                            }
-                          ))
+Data <- R6Class("Data",
+                public = list(
+                  selection.panel.data = NULL,
+                  sector = NULL,
+                  country = NULL,
+                  year = NULL,
+                  user.value = NULL,
+                  is.simulated = NULL,
+                  calculated = NULL,
+                  initialize = function(sector,country,year,user.value,is.simulated){
+                    self$sector = sector
+                    self$country = country
+                    self$year = year
+                    self$user.value = user.value
+                    self$is.simulated = is.simulated
+                    },
+                  tabpanel.selection = function(){
+                    forecasted = Forecasted$new(self$sector,self$country)
+                    calculated = forecasted$onhisto(self$year,NULL,is.simulated = FALSE)
+                    calculated.rank <- forecasted$preprocessing.load.bind$Rank
+                    out <- data.frame(forecasted$preprocessing.load.bind[,c(1,3,4)],calculated,calculated.rank)
+                    new.colnames <- c("Indicator",paste0("Value ",forecasted.year - 1),paste0("Rank ",forecasted.year - 1),
+                                      paste0("Value expected ",forecasted.year),paste0("Rank expected ",forecasted.year))
+                    out <- out %>% rename_at(vars(colnames(out)), ~ new.colnames)
+                    return(out)
+                  },
+                  tabpanel.simulation.values = function(){
+                    forecasted = Forecasted$new(self$sector,self$country)
+                    calculated.expected = forecasted$onhisto(3,NULL,is.simulated = FALSE)
+                    calculated = forecasted$onhisto(3,self$user.value,is.simulated = TRUE)
+                    out <- data.frame(forecasted$preprocessing.load.bind$Indicator,calculated.expected,self$user.value,calculated)
+                    new.colnames <- c("Indicator",paste0("Expected initial ",forecasted.year),
+                                      paste0("Expected modified ",forecasted.year),paste0("Simulated ",forecasted.year + 1))
+                    out <- out %>% rename_at(vars(colnames(out)), ~ new.colnames)
+                    print(str(out))
+                    return(out)
+                  }
+                  
+                  ))
+
 
