@@ -2,7 +2,7 @@ source("config.R")
 #source("data/SimData.R")
 source("views/selection.R")
 source("views/simulation.R")
-source("views/LoadData.R")
+source("views/R6.R")
 
 # les valeurs taggés Simulated ne doivent pas être altérées par les input users
 # en recliquant sur les growth rate reinitialise les bonne valeurs. 
