@@ -19,7 +19,7 @@ selectionViewUI <- function(id){
              mainPanel(
                fluidPage(
               fluidRow(column(width=8),
-                       column(width = 4,
+                       column(width=4,
                radioGroupButtons(
                  inputId = ns("growthrate"),
                  label = "Growth Rate",
@@ -76,6 +76,7 @@ selectionView <- function(input,output,session){
   react.techvoc <- eventReactive(input$runsimulation,{hot_to_r(input$techvoc)})
   
   react.growthrate.selected <- eventReactive(input$runsimulation,{as.numeric(input$growthrate)})
+  
   selection.list <- list(eco=reactive({react.eco()}),
                          env=reactive({react.env()}),
                          highed=reactive({react.highed()}),
@@ -84,7 +85,8 @@ selectionView <- function(input,output,session){
                          devinn=reactive({react.devinn()}),
                          techvoc=reactive({react.techvoc()}),
                          country.selected=reactive({react.country()}),
-                         growthrate.selected=reactive({react.growthrate.selected()}))
+                         growthrate.selected=reactive({react.growthrate.selected()}),
+                         runsimulation.selected = reactive({input$runsimulation}))
   
   
   
