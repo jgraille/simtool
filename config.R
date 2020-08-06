@@ -6,7 +6,7 @@ library(renv)
 # for the first run uncomment the row below
 # renv::init() 
 # Install the packages
-required.packages = c("shiny","shinythemes","R6","rhandsontable","shinyWidgets","tidyverse","shinyjs")
+required.packages = c("shiny","shinythemes","R6","rhandsontable","shinyWidgets","tidyverse","shinyjs","echarts4r")
                       #"shinyjs","shiny.semantic","magrittr","highlighter","formatR","httr","rjson")
 new.packages = required.packages[!(required.packages %in% installed.packages()[,"Package"])]
 if (length(new.packages)) install.packages(new.packages, dependencies = TRUE, repos = "http://cran.us.r-project.org", lib=.libPaths()[1])
