@@ -12,6 +12,13 @@ indicators.two <- function(text, int, id){
               '</div>'))
 }
 
+flagstyle<-function(country){
+  style.char.chain<-paste("background-image:url('", countries.mapping$flag[countries.mapping$official_name==country],
+                          "');background-size: contain; background-repeat: no-repeat;margin-left: auto;margin-right: auto;",
+                          sep="")
+  return(style.char.chain)
+}
+
 adaptive.padding.legend <- function(input.country,data.sector.for.gkicpr){
   # Short names list
   level1 <- lapply(unique(data.sector.for.gkicpr$Country),function(x) if(str_length(x)<10) return(x))

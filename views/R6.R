@@ -6,11 +6,13 @@ LoadData <- R6Class("LoadData",
                       pillars = NULL,
                       subpillars = NULL,
                       variables = NULL,
-                      initialize = function(mapping,pillars,subpillars,variables){
+                      genericinfo = NULL,
+                      initialize = function(mapping,pillars,subpillars,variables,genericinfo){
                         self$mapping = mapping
                         self$pillars = pillars
                         self$subpillars = subpillars
                         self$variables = variables
+                        self$genericinfo = genericinfo
                       }),
                     active = list(
                       a.mapping = function(){
@@ -38,7 +40,7 @@ Preprocessing <- R6Class("Preprocessing",
                          public = list(
                            load = NULL,
                            initialize = function(){
-                             self$load = LoadData$new(NULL,NULL,NULL,NULL)
+                             self$load = LoadData$new(NULL,NULL,NULL,NULL,NULL)
                            },
                            load.bind = function(s,country){
                              # 2019 data + histo
@@ -137,6 +139,9 @@ Data <- R6Class("Data",
                     out <- out %>% rename_at(vars(colnames(out)), ~ new.colnames)
                     print(str(out))
                     return(out)
+                  },
+                  indicators.two.gki.rank = function(){
+                    return(1)
                   }
                   ))
 

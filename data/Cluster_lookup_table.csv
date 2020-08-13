@@ -1,0 +1,137 @@
+"country_long","country_short","country_code","fok_scope","cluster"
+"Albania","Albania","ALB",0,4
+"Algeria","Algeria","DZA",0,2
+"Angola","Angola","AGO",0,1
+"Armenia","Armenia","ARM",0,2
+"Australia","Australia","AUS",2019,3
+"Austria","Austria","AUT",0,3
+"Azerbaijan","Azerbaijan","AZE",0,4
+"Bahrain","Bahrain","BHR",0,4
+"Bangladesh","Bangladesh","BGD",2019,1
+"Barbados","Barbados","BRB",0,4
+"Belarus","Belarus","BLR",0,4
+"Belgium","Belgium","BEL",0,3
+"Belize","Belize","BLZ",0,2
+"Benin","Benin","BEN",0,1
+"Bhutan","Bhutan","BTN",0,2
+"Bolivia (Plurinational State of)","Bolivia","BOL",0,2
+"Botswana","Botswana","BWA",0,2
+"Brazil","Brazil","BRA",2018,4
+"Brunei Darussalam","Brunei Darussalam","BRN",0,4
+"Bulgaria","Bulgaria","BGR",0,4
+"Burkina Faso","Burkina Faso","BFA",0,1
+"Burundi","Burundi","BDI",0,1
+"Cabo Verde","Cabo Verde","CPV",0,2
+"Cambodia","Cambodia","KHM",0,2
+"Cameroon","Cameroon","CMR",2019,1
+"Canada","Canada","CAN",0,3
+"Chad","Chad","TCD",0,1
+"Chile","Chile","CHL",2018,4
+"China","China","CHN",0,4
+"Colombia","Colombia","COL",0,4
+"Congo (Democratic Republic of the)","Congo","COD",0,1
+"Costa Rica","Costa Rica","CRI",0,4
+"Croatia","Croatia","HRV",0,4
+"Cyprus","Cyprus","CYP",0,4
+"Czechia","Czechia","CZE",0,3
+"Côte d'Ivoire","Côte d'Ivoire","CIV",0,1
+"Denmark","Denmark","DNK",0,3
+"Dominican Republic","Dominican Republic","DOM",0,2
+"Ecuador","Ecuador","ECU",0,2
+"Egypt","Egypt","EGY",2018,2
+"El Salvador","El Salvador","SLV",0,2
+"Estonia","Estonia","EST",0,3
+"Eswatini (Kingdom of)","Eswatini","SWZ",0,1
+"Ethiopia","Ethiopia","ETH",2019,1
+"Finland","Finland","FIN",2018,3
+"France","France","FRA",2019,3
+"Gambia","Gambia","GMB",0,1
+"Georgia","Georgia","GEO",0,4
+"Germany","Germany","DEU",2018,3
+"Ghana","Ghana","GHA",2019,2
+"Greece","Greece","GRC",2019,4
+"Guatemala","Guatemala","GTM",0,2
+"Guinea","Guinea","GIN",0,1
+"Guyana","Guyana","GUY",0,2
+"Honduras","Honduras","HND",0,2
+"Hong Kong, China (SAR)","Hong Kong","HKG",0,3
+"Hungary","Hungary","HUN",0,4
+"Iceland","Iceland","ISL",0,3
+"India","India","IND",2018,2
+"Indonesia","Indonesia","IDN",2019,2
+"Iran (Islamic Republic of)","Iran","IRN",0,2
+"Ireland","Ireland","IRL",0,3
+"Israel","Israel","ISR",0,3
+"Italy","Italy","ITA",0,4
+"Japan","Japan","JPN",2018,3
+"Jordan","Jordan","JOR",2018,2
+"Kazakhstan","Kazakhstan","KAZ",2019,4
+"Kenya","Kenya","KEN",0,2
+"Korea (Republic of)","Korea","KOR",0,3
+"Kuwait","Kuwait","KWT",2019,4
+"Kyrgyzstan","Kyrgyzstan","KGZ",0,2
+"Lao People's Democratic Republic","Lao People's Democratic Republic","LAO",0,2
+"Latvia","Latvia","LVA",0,4
+"Lebanon","Lebanon","LBN",2019,2
+"Lesotho","Lesotho","LSO",0,1
+"Lithuania","Lithuania","LTU",0,4
+"Luxembourg","Luxembourg","LUX",2019,3
+"Madagascar","Madagascar","MDG",0,1
+"Malawi","Malawi","MWI",0,1
+"Malaysia","Malaysia","MYS",2019,4
+"Mali","Mali","MLI",0,1
+"Malta","Malta","MLT",0,3
+"Mauritania","Mauritania","MRT",0,1
+"Mauritius","Mauritius","MUS",0,4
+"Mexico","Mexico","MEX",2019,4
+"Moldova (Republic of)","Moldova","MDA",0,2
+"Mongolia","Mongolia","MNG",0,2
+"Morocco","Morocco","MAR",2018,2
+"Mozambique","Mozambique","MOZ",0,1
+"Myanmar","Myanmar","MMR",0,1
+"Namibia","Namibia","NAM",0,2
+"Nepal","Nepal","NPL",0,2
+"Netherlands","Netherlands","NLD",2018,3
+"New Zealand","New Zealand","NZL",0,3
+"North Macedonia","Macedonia","MKD",0,2
+"Norway","Norway","NOR",0,3
+"Oman","Oman","OMN",0,4
+"Pakistan","Pakistan","PAK",0,1
+"Panama","Panama","PAN",0,2
+"Paraguay","Paraguay","PRY",0,2
+"Peru","Peru","PER",0,2
+"Philippines","Philippines","PHL",0,4
+"Poland","Poland","POL",2019,4
+"Portugal","Portugal","PRT",0,3
+"Qatar","Qatar","QAT",0,4
+"Romania","Romania","ROU",0,4
+"Russian Federation","Russian Federation","RUS",2019,4
+"Rwanda","Rwanda","RWA",2018,2
+"Saudi Arabia","Saudi Arabia","SAU",2018,4
+"Senegal","Senegal","SEN",2019,1
+"Serbia","Serbia","SRB",0,4
+"Seychelles","Seychelles","SYC",0,4
+"Singapore","Singapore","SGP",2018,3
+"Slovakia","Slovakia","SVK",0,4
+"Slovenia","Slovenia","SVN",0,3
+"South Africa","South Africa","ZAF",2019,2
+"Spain","Spain","ESP",0,3
+"Sri Lanka","Sri Lanka","LKA",0,2
+"Sweden","Sweden","SWE",2018,3
+"Switzerland","Switzerland","CHE",2018,3
+"Syrian Arab Republic","Syrian Arab Republic","SYR",0,1
+"Tajikistan","Tajikistan","TJK",2019,1
+"Tanzania (United Republic of)","Tanzania","TZA",2018,2
+"Thailand","Thailand","THA",0,4
+"Togo","Togo","TGO",0,1
+"Tunisia","Tunisia","TUN",0,2
+"Turkey","Turkey","TUR",2018,2
+"Uganda","Uganda","UGA",0,1
+"Ukraine","Ukraine","UKR",0,4
+"United Arab Emirates","United Arab Emirates","ARE",2018,3
+"United Kingdom","United Kingdom","GBR",2018,3
+"United States","United States","USA",2018,3
+"Uruguay","Uruguay","URY",0,4
+"Venezuela (Bolivarian Republic of)","Venezuela","VEN",0,1
+"Viet Nam","Vietnam","VNM",2019,4
+"Zimbabwe","Zimbabwe","ZWE",0,2

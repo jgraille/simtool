@@ -1,7 +1,7 @@
 source("config.R")
 #source("data/SimData.R")
-source("views/selection.R")
-source("views/cprsimulation.R")
+source("views/selection/selection.R")
+source("views/cprsimulation/cprsimulation.R")
 source("views/R6.R")
 source("views/utils.R")
 

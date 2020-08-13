@@ -54,7 +54,7 @@ selectionView <- function(input,output,session){
   
   ns <- session$ns
   
-  load <- LoadData$new(NULL,NULL,NULL,NULL)
+  load <- LoadData$new(NULL,NULL,NULL,NULL,NULL)
   
   observe({
     updateSelectInput(session,"countries",choices=unique(load$a.pillars$Country))
