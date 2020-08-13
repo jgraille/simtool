@@ -24,6 +24,12 @@ LoadData <- R6Class("LoadData",
                       },
                       a.variables = function(){
                         self$variables = utils::read.csv("data/GKI2019_variable_all_flat.csv",header = TRUE, sep = ",")
+                      },
+                      a.genericinfo = function(){
+                        genericinfo <- utils::read.csv("data/GENERIC INFO - FOK.csv", header = TRUE, sep = ',')
+                        genericinfo$Country <- as.character(genericinfo$Country)
+                        genericinfo[genericinfo$Country=='Viet Nam',]$Country <- "Vietnam"
+                        self$genericinfo <- genericinfo
                       }
                     )
                     )

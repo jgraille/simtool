@@ -1,6 +1,18 @@
 selectionViewUI <- function(id){
   ns <- NS(id)
   tabPanel("Selection",
+           fluidPage(
+             fluidRow(column(width=10),
+                      column(width=2,
+                             radioGroupButtons(
+                               inputId = ns("growthrate"),
+                               label = "Growth Rate",
+                               choices = c(3, 5, 10),
+                               justified = TRUE,
+                               checkIcon = list(
+                                 yes = icon("ok", 
+                                            lib = "glyphicon")),size = "xs"
+                             )))),
            sidebarLayout(
              sidebarPanel(width=3,
                           selectInput(ns("countries"),label="Countries :", choices=NULL, multiple = FALSE, width = "170px"),
@@ -17,18 +29,6 @@ selectionViewUI <- function(id){
                           actionButton(inputId = ns("runsimulation"),label = "Simulate")
              ),
              mainPanel(
-               fluidPage(
-              fluidRow(column(width=8),
-                       column(width=4,
-               radioGroupButtons(
-                 inputId = ns("growthrate"),
-                 label = "Growth Rate",
-                 choices = c(3, 5, 10),
-                 justified = TRUE,
-                 checkIcon = list(
-                   yes = icon("ok", 
-                              lib = "glyphicon")),size = "xs"
-               )))),
                tabsetPanel(
                  tabPanel("Economy",
                           rHandsontableOutput(ns('economy'))),

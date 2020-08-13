@@ -59,10 +59,10 @@ simulationViewUI <- function(id){
                                        icon = icon("gear"), width = "200px",
                                        tooltip = tooltipOptions(title = "Sector selection")
                                      )))
-                     ),
-           verbatimTextOutput(ns("test")),
+                     )
+           #verbatimTextOutput(ns("test")),
            #verbatimTextOutput(ns("test2")),
-           verbatimTextOutput(ns("test3"))
+           #verbatimTextOutput(ns("test3"))
           )
 }
 simulationView <- function(input,output,session,selection.list){
