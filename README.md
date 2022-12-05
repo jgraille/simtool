@@ -1,6 +1,6 @@
 # simtool
 
-Micro application to forecast country ranking based on technology awareness.
+Micro application that can be used as a template
 
 Built with Rhandsontable, Echarts4r and R6 classes.
 
